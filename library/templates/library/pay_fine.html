@@ -1,0 +1,14 @@
+{% extends "library/base.html" %}
+{% block title %}Pay Fine{% endblock %}
+{% block content %}
+<h2>Pay Fine</h2>
+<p><strong>Book:</strong> {{ tx.book.title }}</p>
+<p><strong>User:</strong> {{ tx.user.username }}</p>
+<p><strong>Fine due:</strong> ₹{{ tx.fine }}</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button class="btn btn-primary">Mark Fine as Paid (simulate)</button>
+  <a class="btn btn-outline-secondary" href="{% url 'user_home' %}">Cancel</a>
+</form>
+{% endblock %}

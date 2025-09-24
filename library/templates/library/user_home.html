@@ -1,0 +1,30 @@
+{% extends "library/base.html" %}
+{% block title %}My Account{% endblock %}
+{% block content %}
+<h2>My Transactions</h2>
+<table class="table table-sm">
+  <thead><tr><th>Book</th><th>Issue date</th><th>Due date</th><th>Return</th><th>Fine</th><th>Action</th></tr></thead>
+  <tbody>
+    {% for t in my_issued %}
+      <tr>
+        <td>{{ t.book.title }}</td>
+        <td>{{ t.issue_date }}</td>
+        <td>{{ t.due_date }}</td>
+        <td>{% if t.return_date %}{{ t.return_date }}{% else %}-{% endif %}</td>
+        <td>{% if t.fine %}₹{{ t.fine }}{% else %}-{% endif %}</td>
+        <td>
+          {% if t.status == 'issued' %}
+            <a class="btn btn-sm btn-danger" href="{% url 'return_book' t.id %}">Return</a>
+          {% elif t.fine and not t.fine_paid %}
+            <a class="btn btn-sm btn-primary" href="{% url 'pay_fine' t.id %}">Pay Fine</a>
+          {% else %}
+            <span class="text-muted">—</span>
+          {% endif %}
+        </td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="6">You have no transactions.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "library/base.html" %}
+{% block title %}Admin Home{% endblock %}
+{% block content %}
+<h2>Admin Dashboard</h2>
+
+<!-- Quick Action Buttons -->
+<div class="row mb-4">
+  <div class="col-auto">
+    <a href="{% url 'add_book' %}" class="btn btn-primary">
+      Add New Book
+    </a>
+  </div>
+  <div class="col-auto">
+    <a href="{% url 'add_user' %}" class="btn btn-success">
+      Add New User
+    </a>
+  </div>
+  <div class="col-auto">
+    <a href="{% url 'manage_categories' %}" class="btn btn-secondary">
+      Manage Categories
+    </a>
+  </div>
+  <div class="col-auto">
+    <a href="{% url 'book_availability' %}" class="btn btn-info">
+      View Books
+    </a>
+  </div>
+  <div class="col-auto">
+    <a href="{% url 'issue_book' %}" class="btn btn-warning">
+      Issue Book
+    </a>
+  </div>
+</div>
+
+<!-- Statistics -->
+<div class="row mb-3">
+  <div class="col-auto">
+    <div class="border p-3">
+      <strong>Books:</strong> {{ books_count }}
+    </div>
+  </div>
+  <div class="col-auto">
+    <div class="border p-3">
+      <strong>Currently issued:</strong> {{ issued_count }}
+    </div>
+  </div>
+</div>
+
+
+<h4>Recent transactions</h4>
+<table class="table table-sm">
+  <thead><tr><th>Book</th><th>User</th><th>Issue date</th><th>Due</th><th>Status</th><th>Action</th></tr></thead>
+  <tbody>
+    {% for t in recent_tx %}
+      <tr>
+        <td>{{ t.book.title }}</td>
+        <td>{{ t.user.username }}</td>
+        <td>{{ t.issue_date }}</td>
+        <td>{{ t.due_date }}</td>
+        <td>{{ t.status }}</td>
+        <td>
+          {% if t.status == 'issued' %}
+            <a class="btn btn-sm btn-warning" href="{% url 'return_book' t.id %}">Return</a>
+          {% endif %}
+        </td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="6">No transactions yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

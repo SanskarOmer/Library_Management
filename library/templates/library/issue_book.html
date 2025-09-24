@@ -1,0 +1,31 @@
+{% extends "library/base.html" %}
+{% block title %}Issue Book{% endblock %}
+{% block content %}
+<h2>Issue Book</h2>
+{% if is_admin %}
+    <div class="alert alert-info">
+        As an admin, you can only issue books to regular users (non-admin users).
+    </div>
+{% endif %}
+<form method="post" class="mb-3">
+    {% csrf_token %}
+  <div class="mb-2">
+    {{ form.book.label_tag }}<br>
+    {{ form.book }}
+  </div>
+
+  {% if is_admin %}
+    <div class="mb-2">
+      {{ form.user.label_tag }} (required for admin)<br>
+      {{ form.user }}
+    </div>
+  {% else %}
+    <div class="alert alert-success">
+      This book will be issued to: <strong>{{ user.get_full_name|default:user.username }}</strong>
+    </div>
+  {% endif %}
+
+  <button class="btn btn-primary">Issue</button>
+  <a class="btn btn-outline-secondary" href="{% url 'book_availability' %}">Cancel</a>
+</form>
+{% endblock %}

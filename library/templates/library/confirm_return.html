@@ -1,0 +1,15 @@
+{% extends "library/base.html" %}
+{% block title %}Confirm Return{% endblock %}
+{% block content %}
+<h2>Return Book</h2>
+<p><strong>Book:</strong> {{ tx.book.title }}</p>
+<p><strong>Issued to:</strong> {{ tx.user.username }}</p>
+<p><strong>Issue date:</strong> {{ tx.issue_date }}</p>
+<p><strong>Due date:</strong> {{ tx.due_date }}</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button class="btn btn-danger">Confirm Return</button>
+  <a class="btn btn-outline-secondary" href="{% url 'user_home' %}">Cancel</a>
+</form>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "library/base.html" %}
+{% block title %}Book Availability{% endblock %}
+{% block content %}
+<h2>Book Availability</h2>
+
+<form method="get" class="mb-3 row g-2">
+  <div class="col-auto">
+    {{ form.q }}
+  </div>
+  <div class="col-auto">
+    <button class="btn btn-primary btn-sm">Search</button>
+    <a class="btn btn-outline-secondary btn-sm" href="{% url 'book_availability' %}">Reset</a>
+  </div>
+</form>
+
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>Code</th>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Category</th>
+      <th>Available</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for b in books %}
+      <tr>
+        <td>{{ b.code_no }}</td>
+        <td>{{ b.title }}</td>
+        <td>{{ b.author }}</td>
+        <td>{{ b.category }}</td>
+        <td>{{ b.available_copies }} / {{ b.total_copies }}</td>
+        <td>
+          {% if b.is_available %}
+            <a class="btn btn-sm btn-success" href="{% url 'issue_book' %}?book={{ b.id }}">Issue</a>
+          {% else %}
+            <span class="text-muted">Not available</span>
+          {% endif %}
+        </td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="6">No books found.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

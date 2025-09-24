@@ -1,0 +1,80 @@
+{% extends "library/base.html" %}
+{% block title %}Add New Book{% endblock %}
+{% block content %}
+<h2>Add New Book</h2>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="{{ form.code_no.id_for_label }}" class="form-label">Book Code *</label>
+                                    {{ form.code_no }}
+                                    {% if form.code_no.errors %}
+                                        <div class="text-danger">{{ form.code_no.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="{{ form.isbn.id_for_label }}" class="form-label">ISBN</label>
+                                    {{ form.isbn }}
+                                    {% if form.isbn.errors %}
+                                        <div class="text-danger">{{ form.isbn.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.title.id_for_label }}" class="form-label">Title *</label>
+                            {{ form.title }}
+                            {% if form.title.errors %}
+                                <div class="text-danger">{{ form.title.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.author.id_for_label }}" class="form-label">Author</label>
+                            {{ form.author }}
+                            {% if form.author.errors %}
+                                <div class="text-danger">{{ form.author.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="{{ form.category.id_for_label }}" class="form-label">Category</label>
+                                    {{ form.category }}
+                                    {% if form.category.errors %}
+                                        <div class="text-danger">{{ form.category.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="{{ form.total_copies.id_for_label }}" class="form-label">Total Copies *</label>
+                                    {{ form.total_copies }}
+                                    {% if form.total_copies.errors %}
+                                        <div class="text-danger">{{ form.total_copies.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'admin_home' %}" class="btn btn-secondary">Back to Dashboard</a>
+                            <button type="submit" class="btn btn-primary">Add Book</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
